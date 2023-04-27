@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.1.2/echarts.common.min.js"></script>
+</head>
+<body>
+  <h1>welcome to summer's home</h1>
+  <div id="main" style="width: 1000px;height:400px;"></div>
+<script type="text/javascript">
+    var mychart = echarts.init(document.getElementById('main'))
+    var option = {
+      xAxis: {
+        type: 'category',
+        data: {{(data|tojson)}}.title,
+        axisLabel: {
+           interval:0,
+           rotate:40
+        }
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: {{(data|tojson)}}.price,
+          type: 'bar',
+          showBackground: true,
+          backgroundStyle: {
+            color: 'rgba(180, 180, 180, 0.2)'
+          }
+        }
+      ]
+    };
+    mychart.setOption(option)
+</script>
+</body>
+
+</html>

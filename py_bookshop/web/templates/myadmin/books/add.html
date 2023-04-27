@@ -1,0 +1,109 @@
+{% extends 'myadmin/base.html'%}
+{% block title %}
+<title>
+    图书新增
+</title>
+{% endblock %}
+{% block con %}
+<div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+        <div class="widget am-cf">
+            <div class="widget-head am-cf">
+                <div class="widget-title am-fl">
+                    添加图书
+                </div>
+                <div class="widget-function am-fr">
+                    <a href="javascript:;" class="am-icon-cog"></a>
+                </div>
+            </div>
+            <div class="widget-body am-fr">
+                <form class="am-form tpl-form-border-form tpl-form-border-br" action="{% url 'myadmin_books_insert' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="am-form-group">
+                        <label for="user-phone" class="am-u-sm-3 am-form-label">所属分类</label>
+                        <div class="am-u-sm-9">
+                            <select data-am-selected="{searchBox: 1}" style="display: none;" name="typeid" multiple>
+                                {% for i in data%}
+                                <option value="{{i.id}}">{{i.sb}}<span>{{i.name}}</span></option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">书名</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" required name="title"  class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">推荐语</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" required name="tuijian" class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">作者</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" required name="author" class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">出版社</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" required name="publisher"  class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">出版时间</label>
+                        <div class="am-u-sm-9">
+                            <input type="date" required name="pub_date" class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">ISBN书号</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" required name="ISBN" class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">单价</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" required name="price" class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">库存</label>
+                        <div class="am-u-sm-9">
+                            <input type="number" required name="num" class="tpl-form-input" id="user-name">
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-name" class="am-u-sm-3 am-form-label">详情</label>
+                        <div class="am-u-sm-9">
+                            <textarea type="text" required name="context" class="tpl-form-input" id="user-name"></textarea> 
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label for="user-weibo" class="am-u-sm-3 am-form-label">封面图</label>
+                        <div class="am-u-sm-9">
+                            <div class="am-form-group am-form-file">
+                                <div class="tpl-form-file-img">
+                                    <img src="" alt="">
+                                </div>
+                                <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                    <i class="am-icon-cloud-upload"></i> 添加封面图</button>
+                                <input id="doc-form-file" name="pic" type="file" multiple="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

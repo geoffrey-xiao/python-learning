@@ -1,0 +1,68 @@
+{% extends 'myhome/base.html'%}
+{% block con %}
+<!-- breadcrumbs-area-start -->
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#" class="active">我的订单</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- breadcrumbs-area-end -->
+<!-- entry-header-area-start -->
+<div class="entry-header-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="entry-header-title">
+                    <h2>我的订单</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- entry-header-area-end -->
+<!-- cart-main-area-start -->
+<div class="cart-main-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        {% for i in user.order_set.all%}
+                        <table>
+                            <thead>
+                                <tr style="background:#f07c29;">
+                                    <th class="product-thumbnail" width="60%" style="color:#fff">订单时间：{{i.ordertime}}
+                                    &nbsp;&nbsp;订单号：{{i.id}}</th>
+                                    <th class="product-name" style="color:#fff">订单总价：¥{{i.totalprice}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for v in i.orderdetail_set.all %}
+                                <tr>
+                                    <td class="product-thumbnail">
+                                        <a href="#"><img src="/{{v.bid.bookimgs_set.first.img_url}}" alt="man" width="60"/></a>
+                                    </td>
+                                    <td class="product-name"><a href="#">{{v.bid.title}}</a>
+                                    ¥<span class="amount">{{v.price}}*{{v.num}}</span>
+                                    <br>
+                                    小计：¥<span class="amount">{% widthratio v.price 1 v.num %}</span>
+                                </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div><!-- cart-main-area-end -->
+{% endblock %}

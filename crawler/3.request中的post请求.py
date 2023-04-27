@@ -1,0 +1,29 @@
+import requests
+
+url = 'https://fanyi.baidu.com/v2transapi?from=zh&to=en'
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36',
+    'Cookie': 'BIDUPSID=AAB95ED2A64FC4CE29C78481087D2A84; PSTM=1630501969; BAIDUID=AAB95ED2A64FC4CE66E1C571B0045CDD:FG=1; __yjs_duid=1_3ff4939684c4f1b4a310b493e41771801630933930021; REALTIME_TRANS_SWITCH=1; FANYI_WORD_SWITCH=1; HISTORY_SWITCH=1; SOUND_SPD_SWITCH=1; SOUND_PREFER_SWITCH=1; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; H_PS_PSSID=34652_34068_31253_34554_34712_34524_34584_34707_34106_26350_34729_34416_22157_34691_34672; BAIDUID_BFESS=AAB95ED2A64FC4CE66E1C571B0045CDD:FG=1; delPer=0; PSINO=2; Hm_lvt_64ecd82404c51e03dc91cb9e8c025574=1631327332,1631327343,1633311786; Hm_lpvt_64ecd82404c51e03dc91cb9e8c025574=1633311786; ab_sr=1.0.1_NjIyYmE2MGE2YzlmM2U4OTkwMGI5ZTFjNjBjNTZlMGQzMjI2NGQ2ZTY3OTkyYjkwMDc5ZjJhYzc0OGJlNTg4NDY4YjQ0YTc0MTg2YjQxODg4N2VmY2YxOWI5ODQxNGMwMzVjNDNjNDRlNWYxNGUwNGQ1ZmIwYjFmMzAwZjY1NDM2OTFhMDg3NmE5YWU2MjQ4ODY0MTE5OGY1MjM0ZjYyYg==; __yjs_st=2_OTM0OTBhZGY0MTgwYjI2MWFlZTBiNTk2YmU5NGU3ZDY1ZDEwMzUxYWUyMGQyNjc0ZWVmZWY4OGIxMDA1ZGE5OGI1Y2MzNDhhZDQwY2MxNjUyNDg5YTk0YjM5M2ZlMjkzYTBhYTU2MDkxNTgwMmMwOWQwNzFhNWQ2ZDE1MzhkMWY4NGQwZjZhZjQzZGU4NTc4Y2M2NmNlY2UzOTI3ODMwZDEwYjc4MDMyZmNkZGQ0ZDc4YmQ3MjdhZWUyZTI2YjQ2YWM5YTdiNDUxOWE4MTlmMGY5OGQ5YzE4MTlmM2Y3MzVlNGM0YjU0ODM0MDk0MjU4MGM2NDhkN2VkMGVlYzViOF83XzgzMzYwMjZm; BA_HECTOR=a10ha5052l018181pi1glknnj0q'
+}
+
+data = {
+    'from': 'zh',
+    'to': 'en',
+    'query': '你好',
+    'transtype': 'translang',
+    'simple_means_flag': '3',
+    'sign': '232427.485594',
+    'token': '604460d04f1bb6ef7355743548d353ee',
+    'domain': 'common'
+}
+res = requests.post(url=url, headers=headers, data=data)
+code = res.status_code
+resdata = res.json()
+print(code)
+print(res.text)
+print(res.json())
+# print(res.request.headers)
+src = resdata['trans_result']['data'][0]['src']
+dst = resdata['trans_result']['data'][0]['dst']
+print(src, dst)

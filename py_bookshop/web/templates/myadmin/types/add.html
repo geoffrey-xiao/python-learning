@@ -1,0 +1,57 @@
+{% extends 'myadmin/base.html'%}
+{% block title %}
+<title>
+	{% if request.GET.id %}
+	分类更新
+	{% else %}
+	分类新增
+	{% endif %}
+</title>
+{% endblock %}
+{% block con %}
+<div class="row">
+	<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+		<div class="widget am-cf">
+			<div class="widget-head am-cf">
+				<div class="widget-title am-fl">
+					{% if request.GET.id %}
+					编辑分类
+					{% else %}
+					添加分类
+					{% endif %}
+				</div>
+				<div class="widget-function am-fr">
+					<a href="javascript:;" class="am-icon-cog"></a>
+				</div>
+			</div>
+			<div class="widget-body am-fr">
+				<form class="am-form tpl-form-border-form tpl-form-border-br" action="{% url 'myadmin_types_insert' %}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="am-form-group">
+						<label for="user-phone" class="am-u-sm-3 am-form-label">所属分类</label>
+						<div class="am-u-sm-9">
+							<select data-am-selected="{searchBox: 1}" style="display: none;" name="pid">
+								<option value="0">顶级分类</option>
+								{% for i in data%}
+								<option value="{{i.id}}">{{i.sb}}<span>{{i.name}}</span></option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="am-form-group">
+						<label for="user-name" class="am-u-sm-3 am-form-label">分类名称</label>
+						<div class="am-u-sm-9">
+							<input type="text" required name="name" class="tpl-form-input" id="user-name" placeholder="请输入分类名称">
+						</div>
+					</div>
+					<div class="am-form-group">
+						<div class="am-u-sm-9 am-u-sm-push-3">
+							<button class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

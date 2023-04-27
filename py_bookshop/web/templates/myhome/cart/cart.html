@@ -1,0 +1,195 @@
+{% extends 'myhome/base.html'%}
+{% block con %}
+<!-- breadcrumbs-area-start -->
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#" class="active">购物车</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- breadcrumbs-area-end -->
+<!-- entry-header-area-start -->
+<div class="entry-header-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="entry-header-title">
+                    <h2>购物车</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- entry-header-area-end -->
+<!-- cart-main-area-start -->
+<div class="cart-main-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="product-name">
+                                        <input type="checkbox" class="all">
+                                    </th>
+                                    <th class="product-thumbnail">图片</th>
+                                    <th class="product-name">书名</th>
+                                    <th class="product-price">单价</th>
+                                    <th class="product-quantity">数量</th>
+                                    <th class="product-subtotal">小计</th>
+                                    <th class="product-remove">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in data.cart_set.all%}
+                                <tr>
+                                    <td class="product-name">
+                                        <input type="checkbox" style='width:15px' cartid="{{i.id}}">
+                                    </td>
+                                    <td class="product-thumbnail">
+                                        <a href="#"><img src="/{{i.bid.bookimgs_set.first.img_url}}" alt="man" /></a>
+                                    </td>
+                                    <td class="product-name"><a href="#">{{i.bid.title}}</a></td>
+                                    <td class="product-price">¥<span class="amount">{{i.bid.price}}</span></td>
+                                    <td class="product-quantity">
+                                        <input type="number" value="{{i.num}}" min="1">
+                                        <input type="hidden" value="{{i.id}}">
+                                    </td>
+                                    <td class="product-subtotal">¥<span>{% widthratio i.bid.price 1 i.num %}</span></td>
+                                    <td class="product-remove"><a href="javascript:void(0)"><i class="fa fa-times"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                <div class="buttons-cart mb-30">
+                    <ul>
+                        <li><a href="#">继续购物</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="cart_totals">
+                    <h2>购物车结算</h2>
+                    <br>
+                    <table>
+                        <tbody>
+                            <tr class="cart-subtotal">
+                                <th>小计</th>
+                                <td>¥<span class="amount">0</span></td>
+                            </tr>
+                            <tr class="shipping">
+                                <th>运费</th>
+                                <td>
+                                    <ul id="shipping_method">
+                                        <li>全场免运费</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr class="order-total">
+                                <th>总计</th>
+                                <td><strong>¥<span class="amount">0</span></strong></td>
+                            </tr>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>
+                                    &nbsp;<div class="wc-proceed-to-checkout"><a id="addorder" href="javascript:void(0)">去结算</a></div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- cart-main-area-end -->
+<script type="text/javascript">
+    window.onload=function(){
+        $('input[type=number]').blur(function(){
+            let data = {}
+            $this = $(this)
+            data.n = $(this).val()
+            data.cid = $(this).next().val()
+            let p = $(this).parents('tr').find('.amount').text()
+            console.log($(this).parents('tr').find('.amount'))
+            $.get('{% url 'myhome_cart_edit'%}',data,function(rdata){
+                if(!rdata['code']){
+                    let total = p * data.n
+                    console.log(total)
+                    console.log( $(this).parents('tr').find('.product-subtotal'))
+                    $this.parents('tr').find('.product-subtotal span').text(total)
+                }
+            },'json')
+        })
+
+        $('#addorder').click(function(){
+            let cids = totalPrice()
+            if(cids.length){
+                location.href="{% url 'myhome_order_index'%}?ids="+cids
+            }else{
+                alert('请先选择结算的商品')
+            }
+        })
+
+        function totalPrice(){
+            let total = 0
+            let cartids = []
+            $('input[type=checkbox]').each(function(){
+               if($(this).prop('checked')){
+                 var p = $(this).parents('tr').find('.product-subtotal span').text()
+                console.log(p)
+                total += Number(p)
+                cid = $(this).attr('cartid')
+                if(cid){
+                    cartids.push(cid)
+                }
+               }
+            })
+            $('.cart-subtotal .amount').text(total)
+            $('.order-total .amount').text(total)
+            return cartids
+        }
+
+        $('input[type=checkbox]').click(function(){
+            let checked = this.checked
+            console.log(checked)         
+                if($(this).attr('class')=='all'){
+                    $('input[type=checkbox]').prop('checked',checked)
+                }
+                totalPrice()
+               
+        })
+
+        $('.product-remove a').click(function(){
+            let res = confirm('是否确认删除购物车的数据')
+            $this = $(this)
+            if(res){
+                let cid = $(this).parents('tr').find('input[type=hidden]').val()
+                console.log(cid)
+                $.get('{% url 'myhome_cart_delete'%}',{'cid':cid},function(data){
+                    if(data['code']){
+                        alert(data['msg'])
+                    }else{
+                        alert(data['msg'])
+                        $this.parents('tr').remove()
+                    }
+                },'json')
+            }
+        })
+    }
+</script>
+{% endblock %}

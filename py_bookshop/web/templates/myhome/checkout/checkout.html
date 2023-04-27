@@ -1,0 +1,92 @@
+{% extends 'myhome/base.html' %}
+{% block con %}
+<!-- breadcrumbs-area-start -->
+<div class="breadcrumbs-area mb-70">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumbs-menu">
+                    <ul>
+                        <li><a href="#">首页</a></li>
+                        <li><a href="#" class="active">订单结算页</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- breadcrumbs-area-end -->
+<!-- checkout-area-start -->
+<div class="checkout-area mb-70">
+    <div class="container">
+        <div class="row">
+            <form action=" {% url 'myhome_order_create' %}" method="post">
+                {% csrf_token %}
+                <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="checkbox-form">
+                        <h3>收货信息</h3>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                                <div class="checkout-form-list"><label>收货人<span class="required">*</span></label>
+                                    <input type="text" placeholder="" name="name">
+                                     <input type="hidden" placeholder="" name="ids" value={{request.GET.ids}}>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="checkout-form-list"><label>电话<span class="required">*</span></label><input type="text" placeholder="" name="phone"></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="checkout-form-list"><label>收获地址 <span class="required">*</span></label><input type="text" name="address"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="your-order">
+                        <h3>订单详情</h3>
+                        <div class="your-order-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-name">商品</th>
+                                        <th class="product-total">小计</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in carts %}
+                                    <tr class="cart_item">
+                                        <td class="product-name">
+                                            <img src="/{{i.bid.bookimgs_set.first.img_url}}" alt="" width="30">
+                                            {{i.bid.title}}<strong class="product-quantity">× <span>{{i.num}}</span></strong></td>
+                                        <td class="product-total">¥<span class="amount">{% widthratio i.bid.price 1 i.num %}</span></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr class="order-total">
+                                        <th>总计</th>
+                                        <td><strong>¥<span class="amount">0</span></strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="payment-method">
+                            <div class="order-button-payment">
+                                <input type="submit" value="去支付"></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div><!-- checkout-area-end -->
+<script>
+window.onload = function() {
+    let total = 0
+    $('.product-total .amount').each(function() {
+        total += Number($(this).text())
+    })
+    console.log(total)
+    $('.order-total .amount').text(total)
+}
+</script>
+{% endblock %}

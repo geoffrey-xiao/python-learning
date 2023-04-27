@@ -1,0 +1,36 @@
+2021-09-25 20-32-24  ERROR
+  NoneType: None
+
+2021-09-25 20:33:34  ERROR
+  NoneType: None
+
+2021-09-25 20:33:48  ERROR
+  NoneType: None
+
+2021-09-25 20:34:17  ERROR
+  NoneType: None
+
+2021-09-25 20:36:11  ERROR
+  NoneType: None
+
+2021-09-25 20:36:53  ERROR
+  NoneType: None
+
+2021-09-25 20:37:24  ERROR
+  NoneType: None
+
+2021-09-25 20:37:42  ERROR
+  NoneType: None
+
+2021-09-25 20:53:16  ERROR
+  NoneType: None
+
+2021-09-25 20:53:39  ERROR
+  NoneType: None
+
+2021-09-25 20:54:39  ERROR
+  Traceback (most recent call last):
+  File "/Users/doubilei/Desktop/python/test2/35。自定义异常类.py", line 19, in <module>
+    a[4]
+IndexError: string index out of range
+

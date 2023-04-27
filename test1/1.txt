@@ -1,0 +1,4 @@
+we are young!ute dogfengfeng is a handsome boyleilei is also a handsome boy!leilei is also a handsome boy!啦啦啦!啦啦啦!
+
+
+xattr -r -d com.apple.quarantine /Applications/lx-music-desktop.app
